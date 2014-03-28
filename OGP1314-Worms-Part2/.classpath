@@ -11,6 +11,9 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="C:/Users/Ruben/Desktop/Java projecten/Worms2/OGP1314-Worms-Part2/bin"/>
+	<classpathentry kind="lib" path="C:/Users/Weymeersch/Documents/GitHub/League-of-Legends/OGP1314-Worms-Part2/lib"/>
+	<classpathentry kind="lib" path="C:/Users/Weymeersch/Documents/GitHub/League-of-Legends/OGP1314-Worms-Part2/bin"/>
+	<classpathentry kind="lib" path="C:/Users/Weymeersch/Documents/GitHub/League-of-Legends/OGP1314-Worms-Part2/.settings"/>
+	<classpathentry kind="lib" path="C:/Users/Weymeersch/Documents/GitHub/League-of-Legends/OGP1314-Worms-Part2/lib/AnnotationsDoclets.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

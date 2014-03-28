@@ -6,11 +6,10 @@ import java.util.Random;
 import worms.model.Objects.Food;
 import worms.model.Objects.Projectile;
 import worms.model.Objects.Worm;
- 
-public class Facade implements IFacade 
-{
- 
-	
+
+	public class Facade implements IFacade {
+		 
+		
 		/**
 		 * This method will create a worm and immediately give him his needed features:
 		 * 
@@ -34,8 +33,7 @@ public class Facade implements IFacade
 		 */
         @Override
         public Worm createWorm(double x, double y, double direction, double radius,
-                        String name) 
-        {
+                        String name) {
                 Worm worm = new Worm(x,y,radius,direction,name);
                 return worm;
         }
@@ -52,9 +50,9 @@ public class Facade implements IFacade
          * 		Number of steps a worm will move
          */
         @Override
-        public boolean canMove(Worm worm, int nbSteps) 
-        {
-                return worm.inspectMovement(nbSteps);
+        public boolean canMove(Worm worm, int nbSteps) {
+               
+                return worm.isValidMovement(nbSteps);
         }
         
         /**
@@ -63,8 +61,7 @@ public class Facade implements IFacade
          * @try worm.Move(nbSteps) (we try to move the worm)
          * 
          * @throws ModelException
-         * 		- If the worm does not have enough AP left
-         * 		- If the amount of steps is invalid (smaller than zero)
+         * 		If worm.Move(nbSteps) throws IllegalArgumentException
          * 
          * @param worm
          * 		The newly created worm
@@ -74,22 +71,12 @@ public class Facade implements IFacade
          *
          */
         @Override
-        public void move(Worm worm, int nbSteps) 
-        {
-                try
-                {
+        public void move(Worm worm, int nbSteps) {
+                try{
                         worm.Move(nbSteps);
                 }
-                catch (IllegalArgumentException exc)
-                {
-                        if (exc.getMessage() == "This is not a valid movement.")
-                        {
-                                throw new ModelException("Insuffient Action Points!");
-                        }
-                        if (exc.getMessage() == "This is not a proper value for Steps") 
-                        {
-                                throw new ModelException("You can not move like this!");
-                        }
+                catch (IllegalArgumentException exc){
+                   throw new ModelException(exc.getMessage());
                 }
                
         }
@@ -107,9 +94,8 @@ public class Facade implements IFacade
          * 
          */
         @Override
-        public boolean canTurn(Worm worm, double angle) 
-        {
-                return worm.inspectTurn(angle);
+        public boolean canTurn(Worm worm, double angle) {
+                return worm.isValidTurn(angle);
         }
         
         /**
@@ -125,8 +111,8 @@ public class Facade implements IFacade
          * 		The worm's angle will change to the new one if there is enough AP left
          */
         @Override
-        public void turn(Worm worm, double angle) 
-        {
+        public void turn(Worm worm, double angle) {
+               
                worm.Turn(angle);
         }
         
@@ -139,9 +125,8 @@ public class Facade implements IFacade
          * @effect
          * 		The worm will change position to the newly calculated position in worm if there is enough AP left
          */
-        
-        public void jump(Worm worm) 
-        {
+        @Override
+        public void jump(Worm worm) {
                worm.Jump();
         }
         
@@ -153,9 +138,9 @@ public class Facade implements IFacade
          * 
          * @return worm.JumpTime()  (the amount of time the worm is in the air while jumping)
          */
-        
-        public double getJumpTime(Worm worm) 
-        {
+        @Override
+        public double getJumpTime(Worm worm) {
+               
                 return worm.JumpTime();
         }
         
@@ -170,9 +155,9 @@ public class Facade implements IFacade
          * 
          * @return worm.JumpStep(t)  (The position for X and Y of the worm at all times in the jump)
          */
-   
-        public double[] getJumpStep(Worm worm, double t) 
-        {        	
+        @Override
+        public double[] getJumpStep(Worm worm, double t) {
+        	
                 return worm.JumpStep(t);
         }
         
@@ -185,10 +170,10 @@ public class Facade implements IFacade
          * @return worm.getPos_x()   (The X-position of the worm in class worm)
          * 	
          */
-        
-        public double getX(Worm worm) 
-        {               
-                return worm.getPos_x();
+        @Override
+        public double getX(Worm worm) {
+               
+                return worm.getPosX();
         }
         
         /**
@@ -200,10 +185,10 @@ public class Facade implements IFacade
          * @return worm.getPos_y()   (The Y-position of the worm in class worm)
          * 	
          */
-        
-        public double getY(Worm worm) 
-        {               
-                return worm.getPos_y();
+        @Override
+        public double getY(Worm worm) {
+               
+                return worm.getPosY();
         }
         
         /**
@@ -215,9 +200,9 @@ public class Facade implements IFacade
          * @return worm.getAngle()   (The angle of direction of the worm in class worm)
          * 	
          */
-        
-        public double getOrientation(Worm worm) 
-        {               
+        @Override
+        public double getOrientation(Worm worm) {
+               
                 return worm.getAngle();
         }
         
@@ -230,9 +215,9 @@ public class Facade implements IFacade
          * @return worm.getRadius()   (The radius of the worm in class worm)
          * 	
          */
-        
-        public double getRadius(Worm worm) 
-        {               
+        @Override
+        public double getRadius(Worm worm) {
+               
                 return worm.getRadius();
         }
         
@@ -247,16 +232,17 @@ public class Facade implements IFacade
          *
          * @throws ModelException 
          * 		If the radius of the worm is smaller than the minimal radius of 0.25 meters
+         * 		| worm.getRadius() < this.getMinimalRadius(worm)
          * 
          * @effect
          * 		The radius of the worm gets changed to its new radius if it is bigger than 0.25 meters
          * 	
          */
-        
-        public void setRadius(Worm worm, double newRadius) throws ModelException
-        {
+        @Override
+        public void setRadius(Worm worm, double newRadius) throws ModelException{
         	 if (worm.getRadius() < this.getMinimalRadius(worm)) throw new ModelException("Your radius is too small");
              worm.setRadius(newRadius);
+               
         }
  
         /**
@@ -268,10 +254,9 @@ public class Facade implements IFacade
          * @return worm.getmin_Radius()   (The minimal radius of the worm in class worm)
          * 	
          */
-      
-        public double getMinimalRadius(Worm worm)
-        {
-                return worm.getmin_Radius(); 
+        @Override
+        public double getMinimalRadius(Worm worm){
+                return worm.minRadius; 
         }
  
         /**
@@ -283,10 +268,10 @@ public class Facade implements IFacade
          * @return worm.getcurrent_AP()   (The current amount of action points of the worm in class worm)
          * 	
          */
-        
-        public int getActionPoints(Worm worm)
-        {       
-                return worm.getCurrent_AP();
+        @Override
+        public int getActionPoints(Worm worm) {
+       
+                return worm.getCurrentAP();
         }
  
         /**
@@ -298,10 +283,10 @@ public class Facade implements IFacade
          * @return worm.getMax_AP()   (The maximum amount of action points of the worm in class worm)
          * 	
          */
-       
-        public int getMaxActionPoints(Worm worm) 
-        {               
-                return worm.getMax_AP();
+        @Override
+        public int getMaxActionPoints(Worm worm) {
+               
+                return worm.getMaxAP();
         }
  
         /**
@@ -313,9 +298,8 @@ public class Facade implements IFacade
          * @return worm.getName()   (The name of the worm in class worm)
          * 	
          */
-        
-        public String getName(Worm worm) 
-        {
+        @Override
+        public String getName(Worm worm) {
                 return worm.getName();
         }
  
@@ -331,22 +315,18 @@ public class Facade implements IFacade
          * @try worm.setName(newName) (We try to rename the worm)
          * 
          * @throws ModelException
-         * 		If the name is invalid (less than 2 characters, including other characters than spaces, single or double quotes and letters or not starting with an uppercase character)
+         * 		If worm.setName(newName) throws IllegalArgumentException
          */
- 
-        public void rename(Worm worm, String newName) 
-        {        
-        	try 
-        	{
-        		worm.setName(newName);        	
+        @Override
+        public void rename(Worm worm, String newName) {
+        	
+        	try {worm.setName(newName);
+        	
         	}
             catch (IllegalArgumentException exc)
-            {
-                        if (exc.getMessage() == "Your name has some invalid characters included")
-                        {
-                                throw new ModelException("Your name has some invalid characters included");
-                        }
-            }
+            	{
+                 throw new ModelException(exc.getMessage());
+                }
         }
  
         /**
@@ -358,12 +338,11 @@ public class Facade implements IFacade
          * @return worm.getMass()   (The mass of the worm in class worm)
          * 	
          */
-       
-        public double getMass(Worm worm) 
-        {               
+        @Override
+        public double getMass(Worm worm) {
+               
                 return worm.getMass();
         }
- 
         
         
         
@@ -498,7 +477,7 @@ public class Facade implements IFacade
 		public double getMaxHitPoints(Worm worm) 
 		{
 			// TODO Auto-generated method stub
-			return worm.getMax_HP();
+			return worm.getMaxHP();
 		}
 
 		@Override
@@ -527,7 +506,7 @@ public class Facade implements IFacade
 			int nbSteps;
 			for(nbSteps = 1; nbSteps < this.getActionPoints(worm); nbSteps++);
 				
-			return worm.inspectMovement(nbSteps);
+			return worm.isValidMovement(nbSteps);
 		}
 
 		@Override

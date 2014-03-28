@@ -75,7 +75,7 @@ public class World
 
 	public Worm createWorm(Worm worm) 
 	{
-		return worm = new Worm(worm.getPos_x(), worm.getPos_y(), worm.getRadius(), worm.getAngle(), worm.getName());
+		return worm = new Worm(worm.getPosX(), worm.getPosY(), worm.getRadius(), worm.getAngle(), worm.getName());
 	}
 	
 	
