@@ -564,6 +564,10 @@ public class Worm {
 		 */
         @Basic @Model
 	    public void setAngle(double angle) {
+        	if (angle > Math.PI)
+				angle = Math.PI;
+			if (angle < -Math.PI)
+				angle = -Math.PI;
         	this.angle = angle;
 		    }
 		   
