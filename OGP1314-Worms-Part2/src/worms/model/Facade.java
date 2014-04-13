@@ -6,6 +6,8 @@ import java.util.Random;
 public class Facade implements IFacade 
 {
 
+	private Worm worm;
+
 	@Override
 	public boolean canTurn(Worm worm, double angle) 
 	{
@@ -356,6 +358,8 @@ public class Facade implements IFacade
 	@Override
 	public void startNextTurn(World world)
 	{
+		worm.setHP(worm.getHP() + 10);
+		worm.setActionPoints(worm.getMaxActionPoints());
 		world.selectNextWorm();
 	}
 

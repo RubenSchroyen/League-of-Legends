@@ -122,7 +122,7 @@ public class Worm extends JumpCalc
 		if (usedAP < 0) 
 			return;
 		if (AP < usedAP) 
-			AP=0;
+			AP = 0;
 		else 
 			AP -= usedAP;
 	}
@@ -271,4 +271,18 @@ public class Worm extends JumpCalc
 		return 0;
 	}
 
+	public void setHP(int HP) 
+	{
+		this.HP = HP;		
+	}
+
+	public void setActionPoints(int AP) 
+	{
+		this.AP = AP;
+	}
+
+	public boolean isValidHP(int HP)
+	{
+		return (HP >= 0 && HP <= getMaxActionPoints());
+	}
 }

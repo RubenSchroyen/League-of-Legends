@@ -1,6 +1,7 @@
 package worms.model;
 public class Food extends Packages {
 
+	private Worm worm;
 	public double getGrowAmount()
 	{
 		return 1.1;
@@ -22,8 +23,10 @@ public class Food extends Packages {
 	}
 	public boolean isDestroyed() 
 	{
-		// TODO Auto-generated method stub
-		return false;
+		if (worm.getPosition().X == this.getPosition().X || worm.getPosition().Y == this.getPosition().Y)
+			return true;
+		else
+			return false;
 	}
 
 }
