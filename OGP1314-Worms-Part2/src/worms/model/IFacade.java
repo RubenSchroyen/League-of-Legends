@@ -3,10 +3,6 @@ package worms.model;
 import java.util.Collection;
 import java.util.Random;
 
-import worms.model.Objects.Food;
-import worms.model.Objects.Projectile;
-import worms.model.Objects.Worm;
-
 /**
  * Implement this interface to connect your code to the user interface.
  * 
@@ -171,7 +167,7 @@ public interface IFacade {
 	World createWorld(double worldWidth, double worldHeight,
 			boolean[][] passableMap, Random random);
 
-	String getWinner(World world);
+	Team[] getWinner(World world);
 
 	Collection<Worm> getWorms(World world);
 

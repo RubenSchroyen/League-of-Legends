@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import worms.model.Facade;
 import worms.model.ModelException;
-import worms.model.Objects.Worm;
 import worms.util.Util;
 
 public class PartialFacadeTest {

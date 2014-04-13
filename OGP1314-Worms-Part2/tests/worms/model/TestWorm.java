@@ -3,8 +3,6 @@ package worms.model;
 import static org.junit.Assert.*;
 
 import org.junit.*;
-
-import worms.model.Objects.Worm;
  
 public class TestWorm {
        

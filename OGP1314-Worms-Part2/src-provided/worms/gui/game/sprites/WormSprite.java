@@ -3,7 +3,7 @@ package worms.gui.game.sprites;
 import worms.gui.GUIUtils;
 import worms.gui.game.ImageSprite;
 import worms.gui.game.PlayGameScreen;
-import worms.model.Objects.Worm;
+import worms.model.Worm;
 
 public class WormSprite extends ImageSprite<Worm> {
 
