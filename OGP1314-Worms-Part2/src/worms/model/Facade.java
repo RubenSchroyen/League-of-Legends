@@ -121,7 +121,7 @@ public class Facade implements IFacade
 	public Food createFood(World world, double x, double y) 
 	{
 		Food food = new Food();
-		food.setPosition(new Position(x,y));
+		food.setPosition(new Location(x,y));
 		world.addObject(food);
 		return food;
 	}
@@ -173,7 +173,7 @@ public class Facade implements IFacade
 	@Override
 	public double[] getJumpStep(Projectile projectile, double time) 
 	{
-		Position position = projectile.jumpStep(time);
+		Location position = projectile.jumpStep(time);
 		double[] Result = {position.X, position.Y};
 		return Result;
 	}
@@ -181,7 +181,7 @@ public class Facade implements IFacade
 	@Override
 	public double[] getJumpStep(Worm worm, double time) 
 	{
-		Position position = worm.jumpStep(time);
+		Location position = worm.jumpStep(time);
 		double[] Result = {position.X, position.Y};
 		return Result;
 	}
@@ -293,7 +293,7 @@ public class Facade implements IFacade
 	@Override
 	public boolean isAdjacent(World world, double x, double y, double radius) 
 	{
-		return world.isOccupiable(new Position(x, y), radius);
+		return world.isOccupiable(new Location(x, y), radius);
 	}
 
 	@Override
@@ -311,7 +311,7 @@ public class Facade implements IFacade
 	@Override
 	public boolean isImpassable(World world, double x, double y, double radius) 
 	{
-		return world.isImpassable(new Position(x, y), radius);
+		return world.isImpassable(new Location(x, y), radius);
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package worms.model;
 import be.kuleuven.cs.som.annotate.*;
 
-public abstract class Supplies extends GameObject 
+public abstract class Packages extends Objects 
 {
 
 	@Override
@@ -11,7 +11,7 @@ public abstract class Supplies extends GameObject
 	}
 
 	@Override
-	public void hitObject(GameObject other) 
+	public void hitObject(Objects other) 
 	{
 		return;
 	}

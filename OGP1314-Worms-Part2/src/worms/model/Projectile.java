@@ -1,6 +1,6 @@
 package worms.model;
 
-public abstract class Projectile extends BallisticObject 
+public abstract class Projectile extends JumpCalc 
 {
 	private final Worm worm;
 	private final int yield;
@@ -12,10 +12,10 @@ public abstract class Projectile extends BallisticObject
 		if (yield < 0 || yield > 100) 
 			throw new IllegalArgumentException("Invalid propulsion yield.");
 		this.yield = yield;
-		Position position = worm.getPosition();
+		Location position = worm.getPosition();
 		double radius = worm.getRadius() + getRadius();
 		worm.getWorld().addObject(this);
-		setPosition(new Position(position.X + radius * Math.cos(getDirection()), position.Y + radius * Math.sin(getDirection())));
+		setPosition(new Location(position.X + radius * Math.cos(getDirection()), position.Y + radius * Math.sin(getDirection())));
 	}
 	
 	@Override
@@ -38,7 +38,7 @@ public abstract class Projectile extends BallisticObject
 	}
 
 	@Override
-	public boolean isFinalPosition(Position position) 
+	public boolean isFinalPosition(Location position) 
 	{
 		// TODO
 		return getWorld().isImpassable(position, getRadius());
@@ -57,7 +57,7 @@ public abstract class Projectile extends BallisticObject
 	}
 
 	@Override
-	public void hitObject(GameObject other) 
+	public void hitObject(Objects other) 
 	{
 		destroy();
 	}

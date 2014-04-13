@@ -1,21 +1,21 @@
 package worms.model;
 
 
-public abstract class GameObject 
+public abstract class Objects 
 {
-	private Position position;
+	private Location position;
 	private World world;
 	private boolean destroyed = false;
 	public abstract double getMinRadius();
 	public abstract double getRadius();
 	
 
-	public Position getPosition()
+	public Location getPosition()
 	{
 		return position;
 	}
 	
-	void setPosition(Position position) 
+	void setPosition(Location position) 
 	{
 		this.position = position;
 	}
@@ -46,7 +46,7 @@ public abstract class GameObject
 
 	public abstract void hitWall();
 
-	public abstract void hitObject(GameObject other);
+	public abstract void hitObject(Objects other);
 
 	public boolean canHaveAsWorld(World world)
 	{

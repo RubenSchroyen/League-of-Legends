@@ -2,14 +2,14 @@ package worms.model;
 import be.kuleuven.cs.som.annotate.*;
 
 
-public class Worm extends BallisticObject
+public class Worm extends JumpCalc
 {
 
 	private double radius;
 
 	private double direction;
 
-	private Position position;
+	private Location position;
 
 
 	private int AP;
@@ -21,7 +21,7 @@ public class Worm extends BallisticObject
 	 @Raw
 	public Worm(double x, double y, double direction, double radius, String name)
 	 {
-		this.position = new Position(x,y);
+		this.position = new Location(x,y);
 		this.setRadius(radius);
 		this.setDirection(direction);
 		this.setName(name);
@@ -173,7 +173,7 @@ public class Worm extends BallisticObject
 	{
 		if (steps < 0) 
 			throw new IllegalArgumentException("Negative amount of steps");
-		setPosition(new Position(position.X + steps * radius * Math.cos(direction), position.Y + steps * radius * Math.sin(direction)));
+		setPosition(new Location(position.X + steps * radius * Math.cos(direction), position.Y + steps * radius * Math.sin(direction)));
 	}
 	
 	public boolean canMove(int steps)
@@ -191,7 +191,7 @@ public class Worm extends BallisticObject
 	
 	public double getInitialVelocity()
 	{
-		return (5 * AP / getMass() - BallisticObject.gravitation) * 0.5;
+		return (5 * AP / getMass() - JumpCalc.gravitation) * 0.5;
 	}
 
 
@@ -224,7 +224,7 @@ public class Worm extends BallisticObject
 		
 	}
 	@Override
-	public void hitObject(GameObject other) 
+	public void hitObject(Objects other) 
 	{
 		//TODO
 
@@ -245,7 +245,7 @@ public class Worm extends BallisticObject
 	}
 	
 	@Override
-	public boolean isFinalPosition(Position position)
+	public boolean isFinalPosition(Location position)
 	{
 		if (position.distanceTo(this.getPosition()) < this.getRadius()) 
 			return false;

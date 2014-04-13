@@ -1,5 +1,5 @@
 package worms.model;
-public class Food extends Supplies {
+public class Food extends Packages {
 
 	public double getGrowAmount()
 	{

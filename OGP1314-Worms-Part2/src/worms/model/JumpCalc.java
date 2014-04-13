@@ -1,16 +1,16 @@
 package worms.model;
 import worms.gui.GUIConstants;
 
-public abstract class BallisticObject extends GameObject 
+public abstract class JumpCalc extends Objects 
 {
 	protected static final double gravitation = 9.80665;
 	public static final double tick = 1 / (GUIConstants.FRAMERATE * GUIConstants.TIME_SCALE);
 	public abstract double getVelocity();
 	public abstract boolean canJump();
 	public abstract double getDirection();
-	public abstract boolean isFinalPosition(Position position);
+	public abstract boolean isFinalPosition(Location position);
 	
-	public Position jumpStep(double elapsed)
+	public Location jumpStep(double elapsed)
 	{
 		if(canJump())
 		{
@@ -18,7 +18,7 @@ public abstract class BallisticObject extends GameObject
 			double newX = getPosition().X + elapsed * initial * Math.cos(getDirection());
 			double newY = getPosition().Y + Math.pow(elapsed, 2) * 0.5 * gravitation + elapsed * initial * Math.sin(getDirection());
 			
-			return new Position(newX, newY);
+			return new Location(newX, newY);
 		} 
 		else return getPosition();
 
@@ -30,7 +30,7 @@ public abstract class BallisticObject extends GameObject
 		if(canJump())
 		{
 			double elapsed = 0;
-			Position position = getPosition();
+			Location position = getPosition();
 			try
 			{
 				while(!isFinalPosition(position))

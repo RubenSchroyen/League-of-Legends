@@ -1,6 +1,6 @@
 package worms.model;
 
-public final class Position 
+public final class Location 
 {
 	
 	public final double X;
@@ -17,7 +17,7 @@ public final class Position
 		return true;
 	}
 	
-	public Position(double X, double Y)
+	public Location(double X, double Y)
 	{
 		if (!isValidPosition(X,Y)) 
 			throw new IllegalArgumentException("Illegal position.");
@@ -26,7 +26,7 @@ public final class Position
 		this.Y=Y;
 	}
 	
-	public Position()
+	public Location()
 	{
 		this(0,0);
 	}
@@ -34,9 +34,9 @@ public final class Position
 	@Override
 	public boolean equals(Object other)
 	{
-		if(!(other instanceof Position)) 
+		if(!(other instanceof Location)) 
 			return false;
-		Position position = (Position) other;
+		Location position = (Location) other;
 		
 		if(position.X == X && position.Y == Y) 
 			return true;
@@ -45,7 +45,7 @@ public final class Position
 			return false;
 	}
 	
-	public double distanceTo(Position other)
+	public double distanceTo(Location other)
 	{
 		return Math.sqrt((X - other.X) * (X - other.X) + (Y - other.Y) * (X - other.Y));
 	}

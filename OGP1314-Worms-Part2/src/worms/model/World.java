@@ -10,7 +10,7 @@ public class World
 	private double worldWidth;
 	private double worldHeight;
 	private ArrayList<Team> allTeams = new ArrayList<Team>();
-	private ArrayList<GameObject> allObjects = new ArrayList<GameObject>();
+	private ArrayList<Objects> allObjects = new ArrayList<Objects>();
 	private boolean destroyed = false;
 	private static final int maxTeams = 10;
 	private boolean[][] passableMap;
@@ -97,15 +97,15 @@ public class World
 		return worm;
 	}
 
-	public <T extends GameObject> ArrayList<T> getObjectsOfType(Class<T> Class)
+	public <T extends Objects> ArrayList<T> getObjectsOfType(Class<T> Class)
 	{
 		return getObjectsOfType(Class, false);
 	}
 	
-	public <T extends GameObject> ArrayList<T> getObjectsOfType(Class<T> Class, boolean requireLive)
+	public <T extends Objects> ArrayList<T> getObjectsOfType(Class<T> Class, boolean requireLive)
 	{
 		ArrayList<T> result = new ArrayList<T>();
-		for (GameObject object: allObjects)
+		for (Objects object: allObjects)
 		{
 			if (Class.isInstance(object))
 			{
@@ -139,7 +139,7 @@ public class World
 		worldHeight = heigth;
 	}
 	
-	public boolean isImpassable(Position position, double radius)
+	public boolean isImpassable(Location position, double radius)
 	{
 		int X = (int) Math.floor(position.X / getCellWidth());
 		int Y = (int) Math.floor(position.Y / getCellHeight());
@@ -161,7 +161,7 @@ public class World
 		return false;
 	}
 	
-	public boolean isOccupiable(Position position, double radius)
+	public boolean isOccupiable(Location position, double radius)
 	{
 		return !isImpassable(position, radius) && isImpassable(position, radius * 1.1);
 	}
@@ -221,27 +221,27 @@ public class World
 	}
 	
 	@Basic @Raw
-	public GameObject[] getObjects()
+	public Objects[] getObjects()
 	{
-		GameObject[] result = new GameObject[allObjects.size()];
+		Objects[] result = new Objects[allObjects.size()];
 		allObjects.toArray(result);
 		return result;
 	}
 	
 	@Raw
-	public boolean canHaveAsObject(GameObject object)
+	public boolean canHaveAsObject(Objects object)
 	{
 		return object != null && (!object.isDestroyed() && !this.isDestroyed());
 	}
 	
-	public boolean hasObject(GameObject object)
+	public boolean hasObject(Objects object)
 	{
 		return allObjects.contains(object);
 	}
 	
 	public boolean hasProperObjects()
 	{
-		for (GameObject object : allObjects)
+		for (Objects object : allObjects)
 		{
 			if (object == null || object.getWorld() != this || !object.canHaveAsWorld(this) || !this.canHaveAsObject(object)) 
 				return false;
@@ -249,7 +249,7 @@ public class World
 		return true;
 	}
 	
-	public void addObject(GameObject object) throws IllegalArgumentException
+	public void addObject(Objects object) throws IllegalArgumentException
 	{
 		if (!object.canHaveAsWorld(this) || !this.canHaveAsObject(object)) 
 			throw new IllegalArgumentException("Object and world incompatible.");
@@ -265,7 +265,7 @@ public class World
 		object.setWorld(this);
 	}
 	
-	public void removeObject(GameObject object)
+	public void removeObject(Objects object)
 	{
 		if (object == null) return;
 		if (object == projectile)
@@ -288,17 +288,17 @@ public class World
 		{
 			removeTeam(team);
 		}
-		for(GameObject object : allObjects)
+		for(Objects object : allObjects)
 		{
 			removeObject(object);
 		}
 		destroyed = true;
 	}
 	
-	public GameObject[] getObjectsAt(Position position, double radius)
+	public Objects[] getObjectsAt(Location position, double radius)
 	{
-		ArrayList<GameObject> objectList = new ArrayList<GameObject>();
-		for (GameObject object: allObjects)
+		ArrayList<Objects> objectList = new ArrayList<Objects>();
+		for (Objects object: allObjects)
 		{
 			double distance = position.distanceTo(object.getPosition());
 			if (Math.abs(object.getRadius() - radius) <= distance && distance <= object.getRadius() + radius)
@@ -306,7 +306,7 @@ public class World
 				objectList.add(object);
 			}
 		}
-		GameObject[] result = new GameObject[objectList.size()];
+		Objects[] result = new Objects[objectList.size()];
 		objectList.toArray(result);
 		return result;
 	}
@@ -322,7 +322,7 @@ public class World
 		}
 	}
 	
-	public Position findValidPosition(GameObject o)
+	public Location findValidPosition(Objects o)
 	{
 		//TODO
 		final double STEP_SIZE=0.1*o.getRadius();
@@ -331,22 +331,22 @@ public class World
 		final int REGEN_MOD=30;
 		int tries = 0;
 		double r=o.getRadius();
-		Position mapcenter=new Position(worldWidth/2,worldHeight/2);
-		Position p=new Position(worldWidth*random.nextDouble(),worldHeight*random.nextDouble());
+		Location mapcenter=new Location(worldWidth/2,worldHeight/2);
+		Location p=new Location(worldWidth*random.nextDouble(),worldHeight*random.nextDouble());
 		double ang=Math.atan2(p.Y-mapcenter.Y,p.X-mapcenter.X);
 		while(!isOccupiable(p,r))
 		{
-			p=new Position(p.X-STEP_SIZE*Math.cos(ang),p.Y-STEP_SIZE*Math.sin(ang));
+			p=new Location(p.X-STEP_SIZE*Math.cos(ang),p.Y-STEP_SIZE*Math.sin(ang));
 			tries++;
 			if(p.distanceTo(mapcenter)<DISTANCE_CUTOFF || tries==MAX_TOTAL_TRIES) return null;
-			if(tries%REGEN_MOD==0) p=new Position(worldWidth*random.nextDouble(),worldHeight*random.nextDouble());
+			if(tries%REGEN_MOD==0) p=new Location(worldWidth*random.nextDouble(),worldHeight*random.nextDouble());
 		}
 		return p;
 	}
 	
-	void spawnObject(GameObject object)
+	void spawnObject(Objects object)
 	{
-		Position position = findValidPosition(object);
+		Location position = findValidPosition(object);
 		if(position != null)
 		{
 			object.setPosition(position);
